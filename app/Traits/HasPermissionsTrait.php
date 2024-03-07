@@ -17,6 +17,11 @@ trait HasPermissionsTrait
         return $this;
     }
 
+    public function userPermissions()
+    {
+        return array_merge($this->permissions->toArray(), $this->roles->map->permissions->flatten()->toArray());
+    }
+
     public function withdrawPermissionsTo(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
