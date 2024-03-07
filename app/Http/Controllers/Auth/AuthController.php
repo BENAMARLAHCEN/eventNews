@@ -56,7 +56,6 @@ class AuthController extends Controller
 
         $user = $this->user->storeOrUpdate(null, $formFields);
         $user->assignRole('admin');
-        // Mail::to($user->email)->send(new VerificationEmail($user));
         try {
             Mail::to($user->email)->send(new VerificationEmail($user));
         } catch (\Exception $e) {
