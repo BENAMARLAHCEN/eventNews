@@ -48,4 +48,21 @@ class UserController extends Controller
 
         return redirect()->back()->with('error', 'User not found.');
     }
+
+    public function banneForm($id){
+        $user = $this->user->findById($id);
+        return view('admin.users.banned', compact('user'));
+    }
+
+    public function banned($id, Request $request)
+    {
+        $user = $this->user->findById($id);
+
+        if ($user) {
+            $user->banned($request->reason);
+            return redirect('/users')->with('success', 'User banned successfully.');
+        }
+
+        return redirect()->back()->with('error', 'User not found.');
+    }
 }
