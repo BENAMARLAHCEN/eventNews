@@ -14,4 +14,6 @@ interface IEventRepository
     public function findById($id);
     public function storeOrUpdate($data = [], $id = null);
     public function destroyById($id);
+
+    public function search($search,array $category = null);
 }
