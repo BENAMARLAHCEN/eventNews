@@ -21,7 +21,7 @@
                         <tr>
                             <td class="py-4">
                                 <div class="flex items-center">
-                                <img class="h-16 w-16 mr-4" src="{{asset('events/',$reservation->event->image)}}" alt=" image">
+                                <img class="h-16 w-16 mr-4" src="{{asset('events/'.$reservation->event->image)}}" alt=" image">
                                 <span class="font-semibold">{{ $reservation->event->title }}</span>
                             </div>
                         </td>
@@ -32,13 +32,12 @@
                                     <a href="{{ route('reservations.pay', $reservation->id) }}" class="bg-blue-500 text-white py-1 px-4 rounded-md">Pay</a>
                                 @endif --}}
                                 @if ($reservation->status == 'approved' && $reservation->payment_status == 'paid')
-                                    <a href="{{ route('reservations.ticket', $reservation->id) }}" class="bg-green-500 text-white py-1 px-4 rounded-md">View Ticket</a>
+                                    <a href="{{ route('tickets.generate', $reservation->id) }}" class="bg-green-500 text-white py-1 px-4 rounded-md">View Ticket</a>
                                 @endif
-                                @if ($reservation->payment_status == 'unpaid' && $reservation->status != 'rejected')
-                                    <form action="{{ route('reservations.cancel', $reservation->id) }}" method="POST">
+                                @if ($reservation->payment_status == 'unpaid' && $reservation->status != 'rejected' && $reservation->status != 'pending')
+                                    <form action="{{ route('reservations.payment', $reservation->id) }}" method="POST">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-500 text-white py-1 px-4 rounded-md">Cancel</button>
+                                        <button type="submit" class="bg-blue-500 text-white py-1 px-4 rounded-md">Pay</button>
                                     </form>
                                 @endif
 
@@ -50,6 +49,14 @@
                                         <button type="submit" class="bg-red-500 text-white py-1 px-4 rounded-md">Remove</button>
                                     </form>
                                     <p class="text-red-500 font-semibold">This reservation is rejected by the event organizer. Please remove it.</p>
+                                @endif
+
+                                @if ($reservation->status != 'rejected' && $reservation->payment_status == 'unpaid')
+                                <form action="{{ route('reservations.cancel', $reservation->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white py-1 px-4 rounded-md">Cancel</button>
+                                </form>
                                 @endif
                             
                             </td>
