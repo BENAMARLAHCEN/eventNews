@@ -20,10 +20,10 @@ class RoleMiddleware
         $permission = null
     ): Response {
         if (!$request->user()->hasRole($role)) {
-            abort(404);
+            abort(404, 'You are not authorized to access this resource.');
         }
         if ($permission !== null && !$request->user()->can($permission)) {
-            abort(404);
+            abort(404, 'You are not authorized to access this resource.');
         }
 
         return $next($request);
