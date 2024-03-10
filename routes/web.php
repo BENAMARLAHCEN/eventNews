@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerifyController as AuthVerifyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MollieController;
 use App\Http\Controllers\Organizer\EventController as OrganizerEventController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\VerifyController;
@@ -27,18 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-Route::get('/details', function () {
-    return view('blog-details');
-});
-
-Route::get('/dash', function () {
-    return view('admin.users.index');
-});
-
-Route::get('/ticket',function(){
-    return view('tickets.ticket');
-});
 
 // home page
 Route::get('/',[HomeController::class,'index'])->name('home');
@@ -125,7 +114,11 @@ Route::post('/reservations/{id}', [ReservationController::class, 'reservation'])
 Route::delete('/reservations/{id}', [ReservationController::class, 'cancel'])->name('reservations.cancel');
 Route::put('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::put('/reservations/{id}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
-Route::put('/reservations/{id}/payment', [ReservationController::class, 'payment'])->name('reservations.payment');
+Route::post('/reservations/{id}/payment', [MollieController::class, 'mollie'])->name('reservations.payment');
+Route::get('/payment/success', [MollieController::class, 'success'])->name('success');
+Route::get('/payment/cancel', [MollieController::class, 'cancel'])->name('cancel');
+
+
 Route::get('/myReservations', [ReservationController::class, 'spectatorReservations'])->name('reservations.spectator');
 Route::get('/reservations', [ReservationController::class, 'organizerReservations'])->name('reservations.organizer');
 Route::get('/reservations/approved', [ReservationController::class, 'approvedReservations'])->name('reservations.approved');
