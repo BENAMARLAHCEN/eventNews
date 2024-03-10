@@ -31,10 +31,8 @@ class EventController extends Controller
     public function show($id)
     {
         $event = $this->event->findById($id);
-
-        $this->authorize('view', $event);
-
-        return view('organizer.events.show', compact('event'));
+        
+        return view('details', compact('event'));
     }
 
     public function create()
@@ -73,7 +71,6 @@ class EventController extends Controller
     {
 
         $event = $this->event->findById($id);
-
 
         $this->authorize('update', $event);
         $data = $request->validated();
