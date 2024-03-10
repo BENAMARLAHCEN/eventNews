@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +18,15 @@ class ReservationFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::with('roles')->whereHas('roles', function ($query) {
+            $query->where('name', 'spectator');
+        })->get();
+        $event = Event::where('status','published')->get();
         return [
-            'user_id' => rand(1, 10), 
-            'event_id' => rand(1, 20), 
+            'user_id' => $user->random()->id, 
+            'event_id' => $event->random()->id, 
             'reservation_code' => $this->faker->uuid,
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
         ];
     }
 }
