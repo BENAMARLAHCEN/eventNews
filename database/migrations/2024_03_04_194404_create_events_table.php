@@ -24,6 +24,8 @@ return new class extends Migration
             $table->unsignedBigInteger('organizer_id');
             $table->foreign('organizer_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('capacity');
+            $table->integer('reserved_seats')->default(0);
+            $table->integer('price')->default(0);
             $table->enum('status', ['draft', 'published','pending'])->default('pending');
             $table->timestamps();
         });
