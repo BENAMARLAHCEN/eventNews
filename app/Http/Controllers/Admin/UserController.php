@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Permission;
 
 class UserController extends Controller
-{  
+{
     protected $user;
 
     public function __construct(IUserRepository $user)
@@ -38,11 +38,14 @@ class UserController extends Controller
         $user = $this->user->findById($id);
 
         if ($user) {
-            $user->refreshBlokedPermissions($request->permissions);
+            if ($request->permissions == null) {
+                $user->blockedPermissions()->detach();
+            } else {
+                $user->refreshBlokedPermissions($request->permissions);
+            }
             return redirect()->back()->with('success', 'User access restricted successfully.');
         }
 
         return redirect()->back()->with('error', 'User not found.');
     }
-
 }
