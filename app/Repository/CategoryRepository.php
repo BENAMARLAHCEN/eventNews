@@ -7,6 +7,15 @@ use App\Repository\Interface\ICategoryRepository;
 
 class CategoryRepository implements ICategoryRepository
 {
+    public function random()
+    {
+        return Category::inRandomOrder()->take(4)->get();
+    }
+
+    public function all()
+    {
+        return Category::all();
+    }
 
     public function list(int $perPage = 10)
     {
