@@ -19,14 +19,14 @@ class HomeController extends Controller
 
     public function index()
     {
-        $events = $this->event->list(6);
+        $events = $this->event->listPublished(6);
         $categories = $this->category->random();
         return view('home', compact('events','categories'));
     }
 
     public function blog()
     {
-        $events = $this->event->list(10);
+        $events = $this->event->listPublished(10);
         $categories = $this->category->all();
         return view('blog', compact('events','categories'));
     }
