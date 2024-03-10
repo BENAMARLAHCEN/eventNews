@@ -35,6 +35,7 @@ class EventPolicy
     public function update(User $user, Event $event)
     {
         // Organizer can update only their own events
+        
         return $user->id === $event->organizer_id;
     }
 
