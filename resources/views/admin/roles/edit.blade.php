@@ -38,7 +38,7 @@
                             @endforeach
                         </select>
 
-      
+                    
                
                         <x-input-error :error="'permissions'" class="mt-2" />
                     </div>
