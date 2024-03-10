@@ -97,9 +97,11 @@
                 <a href="#"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
 
-                <form action="{{ route('logout') }}" method="post"></form>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
                 <button
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</button>
+                </form>
             </div>
         </div>
     </div>
