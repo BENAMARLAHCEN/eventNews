@@ -25,7 +25,7 @@ class Role extends Model
 
     public function givePermissionsTo(...$permissions)
     {
-        $permissions = $this->getAllPermissions($permissions);
+        $permissions = $this->getAllPermissions($permissions[0]);
         if ($permissions === null) {
             return $this;
         }
@@ -36,15 +36,15 @@ class Role extends Model
     public function refreshPermissions(...$permissions)
     {
         $this->permissions()->detach();
-        return $this->givePermissionsTo($permissions);
+        return $this->givePermissionsTo($permissions[0]);
     }
+
+
 
     protected function getAllPermissions(array $permissions)
     {
-   
-        return Permission::whereIn('name', $permissions[0][0])->get();
+        return Permission::whereIn('name', $permissions)->get();
     }
-
 
     public function hasPermission(...$permissions)
     {
