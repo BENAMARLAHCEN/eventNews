@@ -50,18 +50,21 @@ class AuthController extends Controller
         $formFields = $request->validate([
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
+        ]);
+        $role = $request->validate([
+            'role' => 'required|in:organizer,spectator'
         ]);
         $formFields['remember_token'] = Str::random(32);
 
         $user = $this->user->storeOrUpdate(null, $formFields);
-        $user->assignRole('admin');
-        try {
-            Mail::to($user->email)->send(new VerificationEmail($user));
-        } catch (\Exception $e) {
+        $user->assignRole($role['role']);
+        // try {
+        //     Mail::to($user->email)->send(new VerificationEmail($user));
+        // } catch (\Exception $e) {
 
-            return redirect()->back()->withErrors(['email' => 'Failed to send verification email']);
-        }
+        //     return redirect()->back()->withErrors(['email' => 'Failed to send verification email']);
+        // }
 
         return redirect('/login')->with('success', 'Please check your email to activate your account');
     }
