@@ -76,6 +76,6 @@ class EventRepository implements IEventRepository
         if ($category != null) {
             $query->whereIn('category_id', $category);
         }
-        return $query->get(); 
+        return $query->latest()->where('status', 'published')->get(); 
     }
 }
