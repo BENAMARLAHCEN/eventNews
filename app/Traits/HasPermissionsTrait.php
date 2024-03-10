@@ -22,6 +22,39 @@ trait HasPermissionsTrait
         return array_merge($this->permissions->toArray(), $this->roles->map->permissions->flatten()->toArray());
     }
 
+
+    public function blockedPermissions()
+    {
+        return $this->belongsToMany(Permission::class, 'blocked_permissions');
+    }
+
+    public function blockPermissionsTo(...$permissions)
+    {
+
+        $permissions = $this->getAllPermissions($permissions);
+        if ($permissions === null) {
+            return $this;
+        }
+        $this->blockedPermissions()->saveMany($permissions);
+        return $this;
+    }
+
+    public function refreshBlokedPermissions(...$permissions)
+    {
+        $this->blockedPermissions()->detach();
+        return $this->blockPermissionsTo($permissions[0]);
+    }
+
+    public function hasBlockedPermission($permission)
+    {
+        if (is_object($permission) && property_exists($permission, 'name')) {
+            return (bool) $this->blockedPermissions->where('name', $permission->name)->count();
+        }
+        return false;
+    }
+
+
+
     public function withdrawPermissionsTo(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
@@ -37,12 +70,12 @@ trait HasPermissionsTrait
 
     public function hasPermissionTo($permission)
     {
-        return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
+        return ($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) && !$this->blockedPermissions->contains($permission);
     }
 
     public function hasPermissionThroughRole($permission)
     {
-        foreach($permission->roles as $role) {
+        foreach ($permission->roles as $role) {
             if ($this->roles->contains($role)) {
                 return true;
             }
@@ -52,7 +85,7 @@ trait HasPermissionsTrait
 
     public function hasRole(...$roles)
     {
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             if ($this->roles->contains('name', $role)) {
                 return true;
             }
@@ -60,17 +93,19 @@ trait HasPermissionsTrait
         return false;
     }
 
-    
-    public function assignRole(...$roles){
-        $roles=$this->getAllRoles($roles);
-        if($roles === null) {
+
+    public function assignRole(...$roles)
+    {
+        $roles = $this->getAllRoles($roles);
+        if ($roles === null) {
             return $this;
         }
         $this->roles()->saveMany($roles);
         return $this;
     }
 
-    public function getAllRoles(array $roles){
+    public function getAllRoles(array $roles)
+    {
         return Role::whereIn('name', $roles)->get();
     }
 
