@@ -7,9 +7,21 @@ use App\Models\Permission;
 
 trait HasPermissionsTrait
 {
+
+    public function assignRole(...$roles)
+    {
+        $roles = $this->getAllRoles($roles);
+        if ($roles === null) {
+            return $this;
+        }
+        $this->roles()->saveMany($roles);
+        return $this;
+    }
+
+
     public function givePermissionsTo(...$permissions)
     {
-        $permissions = $this->getAllPermissions($permissions);
+        $permissions = $this->getAllPermissions($permissions[0]);
         if ($permissions === null) {
             return $this;
         }
@@ -17,21 +29,13 @@ trait HasPermissionsTrait
         return $this;
     }
 
-    public function userPermissions()
-    {
-        return array_merge($this->permissions->toArray(), $this->roles->map->permissions->flatten()->toArray());
-    }
 
 
-    public function blockedPermissions()
-    {
-        return $this->belongsToMany(Permission::class, 'blocked_permissions');
-    }
 
     public function blockPermissionsTo(...$permissions)
     {
 
-        $permissions = $this->getAllPermissions($permissions);
+        $permissions = $this->getAllPermissions($permissions[0]);
         if ($permissions === null) {
             return $this;
         }
@@ -47,11 +51,16 @@ trait HasPermissionsTrait
 
     public function hasBlockedPermission($permission)
     {
-        if (is_object($permission) && property_exists($permission, 'name')) {
-            return (bool) $this->blockedPermissions->where('name', $permission->name)->count();
-        }
-        return false;
+        return (bool) $this->blockedPermissions->where('name', $permission)->count();
     }
+
+
+    public function refreshPermissions(...$permissions)
+    {
+        $this->permissions()->detach();
+        return $this->givePermissionsTo($permissions[0]);
+    }
+
 
 
 
@@ -62,26 +71,12 @@ trait HasPermissionsTrait
         return $this;
     }
 
-    public function refreshPermissions(...$permissions)
-    {
-        $this->permissions()->detach();
-        return $this->givePermissionsTo($permissions);
-    }
 
-    public function hasPermissionTo($permission)
-    {
-        return ($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) && !$this->blockedPermissions->contains($permission);
-    }
 
-    public function hasPermissionThroughRole($permission)
-    {
-        foreach ($permission->roles as $role) {
-            if ($this->roles->contains($role)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
+
+
+    // has function
 
     public function hasRole(...$roles)
     {
@@ -93,22 +88,52 @@ trait HasPermissionsTrait
         return false;
     }
 
-
-    public function assignRole(...$roles)
+    protected function hasPermission($permission)
     {
-        $roles = $this->getAllRoles($roles);
-        if ($roles === null) {
-            return $this;
-        }
-        $this->roles()->saveMany($roles);
-        return $this;
+        return (bool) $this->permissions->where('name', $permission->name)->count();
     }
+
+
+    public function hasPermissionThroughRole($permission)
+    {
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains($role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasPermissionTo($permission)
+    {
+        return ($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) && !$this->hasBlockedPermission($permission);
+    }
+
+    public function userPermissions()
+    {
+
+        $permissions = array_merge($this->permissions->pluck('name')->toArray(), $this->roles->map->permissions->flatten()->pluck('name')->toArray());
+        $blockedPermissions = $this->blockedPermissions->pluck('name')->toArray();
+        $filteredPermissions = array_diff($permissions, $blockedPermissions);
+        return $filteredPermissions;
+    }
+
+    // get all roles and permissions from the database
+
 
     public function getAllRoles(array $roles)
     {
         return Role::whereIn('name', $roles)->get();
     }
 
+    protected function getAllPermissions(array $permissions)
+    {
+        return Permission::whereIn('name', $permissions)->get();
+    }
+
+
+
+    // roles, permission and blockedPermission relashin
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'users_roles');
@@ -117,13 +142,9 @@ trait HasPermissionsTrait
     {
         return $this->belongsToMany(Permission::class, 'users_permissions');
     }
-    protected function hasPermission($permission)
-    {
-        return (bool) $this->permissions->where('name', $permission->name)->count();
-    }
 
-    protected function getAllPermissions(array $permissions)
+    public function blockedPermissions()
     {
-        return Permission::whereIn('name', $permissions)->get();
+        return $this->belongsToMany(Permission::class, 'blocked_permissions');
     }
 }
