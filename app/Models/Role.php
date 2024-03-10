@@ -41,7 +41,8 @@ class Role extends Model
 
     protected function getAllPermissions(array $permissions)
     {
-        return Permission::whereIn('name', $permissions)->get();
+   
+        return Permission::whereIn('name', $permissions[0][0])->get();
     }
 
 
