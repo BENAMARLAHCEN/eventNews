@@ -4,6 +4,12 @@
     <h3 class="text-3xl font-medium text-gray-700">Events</h3>
     <div class="mt-8">
 
+    {{-- published and rejected link --}}
+        <a href="{{ route('admin.events.published') }}"
+            class="px-4 py-2 text-sm font-medium leading-5 text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">Published</a>
+        <a href="{{ route('admin.events.rejected') }}"
+            class="px-4 py-2 text-sm font-medium leading-5 text-white bg-red-600 border border-transparent rounded-md hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out">Rejected</a>
+        
     </div>
 
     <div class="flex flex-col mt-8">

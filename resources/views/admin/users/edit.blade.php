@@ -7,10 +7,11 @@
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Edit Role</h3>
+                    Edit User Access</h3>
             </div>
             <!-- Modal body -->
-            <form action="{{ route('roles.update',$role->id) }}" method="POST" enctype="multipart/form-data" id="createEventForm" method="POST">
+            <form action="{{ route('users.restrict.access', $user->id) }}" method="POST" enctype="multipart/form-data"
+                id="createEventForm" method="POST">
                 @csrf
                 @method('put')
                 <div class=" gap-4 mb-4 sm:grid-cols-2">
@@ -20,23 +21,39 @@
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Name
                         </label>
-                        <input type="text" name="name" id="name"
+                        <input type="text" name="name" id="name" value="{{ $user->name }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                            placeholder="name" value="{{ $role->name }}" required>
-                 
+                            placeholder="name" disabled>
+
                         <x-input-error :error="'name'" class="mt-2" />
                     </div>
                     <div>
+                        <div class="flex gap-2 my-4">
+                            @foreach ($user->userPermissions() as $permission)
+                                <span
+                                    class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
+                                    {{ $permission['name'] }}
+                                </span>
+                            @endforeach
+
+                        </div>
+                    </div>
+
+                    <div>
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Permission
+                           Blocked Permission
                         </label>
-                        <select id="select-permissions" name="permissions[]" multiple placeholder="Select a permission..." autocomplete="off">
+                        <select id="select-permissions" name="permissions[]" multiple placeholder="Select a permission..."
+                            autocomplete="off">
                             @foreach ($permissions as $permission)
-                                <option value="{{ $permission->name }} @if ($role->hasPermission($permission->name)) selected @endif">{{ $permission->name }}</option>
+                                <option value="{{ $permission->name }}" @if ($user->hasBlockedPermission($permission->name))
+                                    selected
+                                    
+                                @endif>{{ $permission->name }}</option>
                             @endforeach
                         </select>
-               
                         <x-input-error :error="'permissions'" class="mt-2" />
+
                     </div>
 
                     <button type="submit"
@@ -47,7 +64,7 @@
                                 d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                 clip-rule="evenodd" />
                         </svg>
-                        Create
+                        Update
                     </button>
             </form>
         </div>

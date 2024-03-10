@@ -1,9 +1,20 @@
-@extends('auth.layout')
+@extends('layouts.app')
+
 @section('content')
     <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
         <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md" style="
         min-width: 35%;
     ">
+
+            <div class="flex justify-center mb-4">
+                <a href="/" class="flex items-center whitespace-nowrap text-2xl font-black">
+                    <span class="mr-2 w-9">
+                        <img src="{{ asset('images/event (2).png') }}" alt="logo" />
+                    </span>
+                    Event News
+                </a>
+            </div>
+
             <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Welcome !</h1>
             <form action="{{ route('register') }}" method="POST">
                 @csrf
@@ -42,6 +53,25 @@
                     <input type="password" id="password_confirmation" name="password_confirmation"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="Confirm your password" required>
+                </div>
+                <div>
+   
+                    <div class="mb-4">
+                        <span class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Role</span>
+                        <div class="flex items-center">
+                            <input type="radio" id="organizer_role" name="role" value="organizer"
+                                class="form-radio h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="organizer_role" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Organizer</label>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            <input type="radio" id="spectator_role" name="role" value="spectator"
+                                class="form-radio h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="spectator_role" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Spectator</label>
+                        </div>
+                        @error('role')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="flex items-center justify-between mb-4">
                     <a href="{{ route('login') }}"

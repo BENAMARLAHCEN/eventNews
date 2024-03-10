@@ -103,33 +103,50 @@
                     href="/">Home</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                    href="filter">Blog</a></li>
+                    href="/blog">Blog</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
                     href="contact">Contact</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                    href="contact">About Us</a></li>
+                    href="/about">About Us</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                    href="#">FAQ</a></li>
+                    href="faq">FAQ</a></li>
         </ul>
         <hr class="mt-4 w-full lg:hidden" />
         <div class="mx-3 my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0">
             @auth
-                <a href="/cart" class=" text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-                    <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                        </path>
-                    </svg>
-                </a>
-                <a href="/orders" class="h-9 w-9 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-                    <img class="" src="{{ asset('images/SEO_-_6_-_Filled_Outline_-_44-10-512.webp') }}"
-                        alt="ush">
-                </a>
 
+                @role('admin')
+                    <a href="{{ route('admin.events.index') }}"
+                        class="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                        <span>
+                            <i class="fa-solid fa-gear"></i>
+                        </span>
+                        <span> Dashboard </span>
+                    </a>
+                @endrole
+
+                @role('spectator')
+                    <a href="{{ route('organizer.events.index') }}"
+                        class="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                        <span>
+                            <i class="fa-solid fa-ticket"></i>
+                        </span>
+                        <span> Tichet </span>
+                    </a>
+                @endrole
+                
+                @role('organizer')
+                    <a href="{{ route('organizer.events.index') }}"
+                        class="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                        <span>
+                            <i class="fa-solid fa-wand-sparkles"></i>
+                        </span>
+                        <span> MyEvent </span>
+                    </a>
+                @endrole
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button class="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">

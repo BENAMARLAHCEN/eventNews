@@ -3,7 +3,12 @@
 @section('content')
     <h3 class="text-3xl font-medium text-gray-700">Rejected Events</h3>
     <div class="mt-8">
-
+     <a href="{{ route('admin.events.index') }}"
+            class="px-4 py-2 text-sm font-medium leading-5 text-white bg-gray-600 border border-transparent rounded-md hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700 transition duration-150 ease-in-out">Pending</a>   
+        <a href="{{ route('admin.events.published') }}"
+        class="px-4 py-2 text-sm font-medium leading-5 text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">Published</a>
+  
+        
     </div>
 
     <div class="flex flex-col mt-8">

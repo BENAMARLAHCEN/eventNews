@@ -15,8 +15,6 @@
             @csrf
             @method('post')
             <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                <input type="hidden" name="status" value="Pending">
-                <input type="hidden" name="tickets_booked" value="0">
                 <div>
                     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Title
@@ -67,13 +65,13 @@
                 </div>
 
                 <div>
-                    {{-- <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Price ($)
                     </label>
                     <input type="number" name="price" id="price"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         placeholder="Price" required="">
-                    <x-input-error :error="'price'" class="mt-2" /> --}}
+                    <x-input-error :error="'price'" class="mt-2" />
                 </div>
 
                 <div>

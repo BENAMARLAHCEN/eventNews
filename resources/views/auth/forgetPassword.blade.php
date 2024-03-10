@@ -1,8 +1,16 @@
-@extends('auth.layout')
+@extends('layouts.app')
 
 @section('content')
     <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
         <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md" style="min-width: 35%;">
+            <div class="flex justify-center mb-4">
+                <a href="/" class="flex items-center whitespace-nowrap text-2xl font-black">
+                    <span class="mr-2 w-9">
+                        <img src="{{ asset('images/event (2).png') }}" alt="logo" />
+                    </span>
+                    Event News
+                </a>
+            </div>
             <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Forgot Password</h1>
             <form action="{{ route('forget.password.post') }}" method="POST">
                 @csrf
