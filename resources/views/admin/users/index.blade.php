@@ -16,6 +16,7 @@
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Role</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Permission</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Banned</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                         </tr>
                     </thead>
@@ -40,7 +41,7 @@
                                     @endforeach
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                    <div class="flex gap-2">
+                                   
                                         @foreach ($user->userPermissions() as $permission)
                                             <span
                                                 class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-indigo-500 rounded-full">
@@ -48,11 +49,27 @@
                                             </span>
                                         @endforeach
 
-                                    </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td>
+                                    @if ($user->isBanned())
+                                    <div 
+                                            class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
+                                            Banned
+                                        </div>
+                                    @else
+                                    <div 
+                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                                            Active
+                                        </div>
+                                    @endif
+
+                                </td>
+                                <td class="px-6 py-4 flex gap-3">
                                     <div class="flex justify-end gap-4">
                                         <a href="{{route('users.access',$user->id)}}" class="flex"><i class="fa-solid fa-hand"></i><i class="fa-solid fa-key"></i></a>
+                                    </div>
+                                    <div class="me-3">
+                                        <a href="{{route('user.banForm',$user->id)}}" class="flex"><i class="fa-solid fa-lock"></i></a>
                                     </div>
                                 </td>
                             </tr>
