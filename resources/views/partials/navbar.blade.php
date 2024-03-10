@@ -129,7 +129,7 @@
                 @endrole
 
                 @role('spectator')
-                    <a href="{{ route('organizer.events.index') }}"
+                    <a href="{{ route('reservations.spectator') }}"
                         class="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                         <span>
                             <i class="fa-solid fa-ticket"></i>
