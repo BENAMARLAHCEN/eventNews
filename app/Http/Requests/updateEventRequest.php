@@ -11,7 +11,7 @@ class updateEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,14 +22,16 @@ class updateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:50',
-            'description' => 'nullable|max:255',
+            'title' => 'required|max:50',
+            'description' => 'required|max:255',
             'date' => 'required|date|after:start_date',
             'location' => 'required|max:255',
             'image' => 'nullable|image',
             'reservation_approval_mode' => 'required|in:automatic,manual',
             'capacity' => 'required|integer',
+            'price' => 'required|integer|min:0',
             'category_id' => 'required|integer'
+
         ];
     }
 }
