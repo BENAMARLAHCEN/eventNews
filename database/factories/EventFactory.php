@@ -32,6 +32,7 @@ class EventFactory extends Factory
             'capacity' => $this->faker->numberBetween(50, 200), // Assuming capacity is a numeric field
             'reservation_approval_mode' => $this->faker->randomElement(['automatic', 'manual']),
             'price' => $this->faker->numberBetween(0, 100), // Assuming price is a numeric field
+            'reserved_seats' => $this->faker->numberBetween(0, 5), // Assuming seats is a numeric field
             'status' => $this->faker->randomElement(['draft', 'published']),
         ];
     }
