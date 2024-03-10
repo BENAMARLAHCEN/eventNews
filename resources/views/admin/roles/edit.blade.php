@@ -32,12 +32,17 @@
                         </label>
                         <select id="select-permissions" name="permissions[]" multiple placeholder="Select a permission..." autocomplete="off">
                             @foreach ($permissions as $permission)
-                                <option value="{{ $permission->name }} @if ($role->hasPermission($permission->name)) selected @endif">{{ $permission->name }}</option>
+                                <option value="{{ $permission->name }}" @if ($role->hasPermission($permission->name))
+                                    selected
+                                    @endif>{{ $permission->name }}</option>
                             @endforeach
                         </select>
+
+      
                
                         <x-input-error :error="'permissions'" class="mt-2" />
                     </div>
+
 
                     <button type="submit"
                         class="text-white inline-flex items-center mt-2 bg-orange-500 hover:bg-orange-500/85 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-600">
