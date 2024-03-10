@@ -7,6 +7,7 @@ use App\Http\Requests\RoleRequest;
 use App\Http\Requests\updateRoleRequest;
 use App\Models\Permission;
 use App\Repository\Interface\IRoleRepository;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -53,10 +54,15 @@ class RoleController extends Controller
         return view('admin.roles.show', compact('role'));
     }
 
-    public function update(updateRoleRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $data=$request->validate([
+            'name' => 'required|unique:roles,name,'.$id.'|max:50',
+            'permissions' => ['required', 'array'],
+            'permissions.*' => 'exists:permissions,name'
+        ]);
 
-        $role = $this->role->storeOrUpdate($request->validated(), $id);
+        $role = $this->role->storeOrUpdate($data, $id);
 
         $role->refreshPermissions($request->permissions);
 
