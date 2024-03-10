@@ -16,13 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-        // $this->call(RoleSeeder::class);
+        $this->call(RoleSeeder::class);
+        // \App\Models\User::factory(20)->create();
+        
         // $this->call(CategorySeeder::class);
+
         // User::get()->each(function ($user) {
-        //     $user->roles()->attach(Role::where('name', 'organizer')->first());
+        //     $role = Role::inRandomOrder()->first();
+        //     $user->assignRole($role->name);
         // });
-        $this->call(EventSeeder::class);
+
+        // $this->call(EventSeeder::class);
+
         // $this->call(ReservationSeeder::class);
      
         
@@ -32,5 +37,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        // $user = User::create([
+        //     'name' => 'Test admin',
+        //     'email' => 'admin@admin.com',
+        //     'password' => 'password',
+        // ]);
+
+        // $user->assignRole('admin');
+
     }
 }
