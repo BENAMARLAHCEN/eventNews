@@ -49,9 +49,13 @@ trait HasPermissionsTrait
         return $this->blockPermissionsTo($permissions[0]);
     }
 
-    public function hasBlockedPermission($permission)
-    {
+    public function hasBlockedPermission($permission){
         return (bool) $this->blockedPermissions->where('name', $permission)->count();
+    }
+
+    public function hasBlockedPermissionTo($permission)
+    {
+        return (bool) $this->blockedPermissions->where('name', $permission->name)->count();
     }
 
 
@@ -106,7 +110,7 @@ trait HasPermissionsTrait
 
     public function hasPermissionTo($permission)
     {
-        return ($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) && !$this->hasBlockedPermission($permission);
+        return ($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) && !$this->hasBlockedPermissionTo($permission);
     }
 
     public function userPermissions()
