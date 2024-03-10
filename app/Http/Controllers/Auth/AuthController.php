@@ -78,6 +78,13 @@ class AuthController extends Controller
 
 
         if (auth()->attempt($formFields)) {
+
+            // check user is banned
+            if (auth()->user()->isBanned()) {
+                auth()->logout();
+                return back()->with('error' , 'Your account has been banned');
+            }
+
             $request->session()->regenerate();
             if (auth()->user()->hasRole('admin') == 1) {
                 return redirect('/dashboard')->with('success', 'You are now logged in!');
