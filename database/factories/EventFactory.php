@@ -23,7 +23,7 @@ class EventFactory extends Factory
         
         return [
             'title' => $this->faker->sentence,
-            'image' => 'https://via.placeholder.com/800x400?text=Event+Image', // Assuming image is a string field and the value is a URL to an image
+            'image' => 'event_default.webp', // Assuming image is a string field and the value is a URL to an image
             'description' => $this->faker->paragraph,
             'date' => $this->faker->dateTimeBetween('+1 week', '+1 month'),
             'location' => $this->faker->address,
@@ -31,6 +31,7 @@ class EventFactory extends Factory
             'organizer_id' => $this->faker->randomElement($organizerIds),
             'capacity' => $this->faker->numberBetween(50, 200), // Assuming capacity is a numeric field
             'reservation_approval_mode' => $this->faker->randomElement(['automatic', 'manual']),
+            'price' => $this->faker->numberBetween(0, 100), // Assuming price is a numeric field
             'status' => $this->faker->randomElement(['draft', 'published']),
         ];
     }
