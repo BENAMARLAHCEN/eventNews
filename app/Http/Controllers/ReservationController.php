@@ -41,7 +41,7 @@ class ReservationController extends Controller
         $reservation = Reservation::where('event_id', $event->id)->where('user_id', auth()->id())->first();
         if ($reservation) {
             return redirect()->back()->with('error', 'You have already reserved this event');
-        }   
+        }  
 
         if ($event->reservation_approval_mode == 'automatic') {
             // Perform the logic to reserve the event here
@@ -57,7 +57,7 @@ class ReservationController extends Controller
             $event->save();
             // You can also redirect the user to a different page or show a success message
             return redirect()->back()->with('success', 'Event reserved successfully.');
-        } elseif ($event->reservation_approve_mode == 'manual'){
+        } elseif ($event->reservation_approval_mode == 'manual'){
             $reservation = Reservation::create([
                 'event_id' => $event->id,
                 'user_id' => auth()->id(),
