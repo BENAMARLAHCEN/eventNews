@@ -6,23 +6,24 @@
     <!-- hero headline -->
     <div class="hero-headline flex flex-col items-center justify-center pt-24 text-center">
         <h1 class="font-bold text-3xl text-gray-900">Welcome to Event News</h1>
-        <p class="font-base text-base text-gray-600">Discover amazing content and stay updated with the latest news and events.</p>
+        <p class="font-base text-base text-gray-600">Discover amazing content and stay updated with the latest news and
+            events.</p>
     </div>
 
-    <!-- image search box --> 
+    <!-- image search box -->
     <div class="box pt-6">
         <div class="box-wrapper px-7">
 
             <div class=" bg-white rounded flex items-center w-full p-3 shadow-sm border border-gray-200">
-                <button  class="outline-none focus:outline-none"><svg
-                        class=" w-5 text-gray-600 h-5 cursor-pointer" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                <button class="outline-none focus:outline-none"><svg class=" w-5 text-gray-600 h-5 cursor-pointer"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg></button>
-                <input type="search" name="" id="search"  oninput="searchAndFilter()"
-                    placeholder="search for event" 
+                <input type="search" name="" id="search" oninput="searchAndFilter()"
+                    placeholder="search for event"
                     class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent">
-                
+
             </div>
 
         </div>
@@ -78,50 +79,53 @@
     </div>
 
     <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var categoryCheckboxes = document.querySelectorAll('.category_checkbox');
+            var searchInput = document.getElementById('search');
 
-        $(document).ready(function() {
-            $('.category_checkbox').click(function() {
-                searchAndFilter();
+            categoryCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('click', function() {
+                    searchAndFilter();
+                });
             });
-            $('#search').keyup(function() {
+
+            searchInput.addEventListener('keyup', function() {
                 searchAndFilter();
             });
         });
-       
 
         function searchAndFilter() {
             var category = [];
-            $('.category_checkbox').each(function() {
-                if ($(this).is(":checked")) {
-                    category.push($(this).attr('id'));
+            var categoryCheckboxes = document.querySelectorAll('.category_checkbox');
+
+            categoryCheckboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    category.push(checkbox.getAttribute('id'));
                 }
             });
-            if (category.length == 0) {
-                $('.category_checkbox').each(function() {
-                if ($(this)) {
-                    category.push($(this).attr('id'));
-                }
-            });
+
+            if (category.length === 0) {
+                categoryCheckboxes.forEach(function(checkbox) {
+                    category.push(checkbox.getAttribute('id'));
+                });
             }
-            category = category.toString();
+
+            category = category.join(',');
             console.log(category);
 
-            $.ajax({
-                url: "{{ route('search') }}",
-                method: 'get',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    search: $('#search').val(),
-                    categories: category
-                },
-                success: function(data) {
-                    $('#place_result').html(data);
-                }
-            });
-        }
+            var searchValue = document.getElementById('search').value;
 
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', "{{ route('search') }}?search=" + encodeURIComponent(searchValue) + "&categories=" + category);
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('place_result').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
     </script>
 
 
