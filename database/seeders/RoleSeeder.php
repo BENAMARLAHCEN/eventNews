@@ -60,35 +60,36 @@ class RoleSeeder extends Seeder
             'generate-ticket'
         ];
 
-        // foreach ($routeNames as $routeName) {
-        //     Permission::create(['name' => $routeName]);
-        // }
+        foreach ($routeNames as $routeName) {
+            Permission::create(['name' => $routeName]);
+        }
+        
 
         Role::where('name','admin')->get()->first()->givePermissionsTo($routeNames);
 
-        // Role::where('name','organizer')->get()->first()->givePermissionsTo([
-        //     'organizer-view-events',
-        //     'organizer-create-event',
-        //     'organizer-store-event',
-        //     'organizer-edit-event',
-        //     'organizer-update-event',
-        //     'organizer-delete-event',
-        //     'organizer-view-reservations',
-        //     'organizer-view-approved-reservations',
-        //     'organizer-view-rejected-reservations',
-        //     'organizer-view-paid-reservations',
-        //     'organizer-approve-reservation',
-        //     'organizer-reject-reservation'
-        // ]);
+        Role::where('name','organizer')->get()->first()->givePermissionsTo([
+            'organizer-view-events',
+            'organizer-create-event',
+            'organizer-store-event',
+            'organizer-edit-event',
+            'organizer-update-event',
+            'organizer-delete-event',
+            'organizer-view-reservations',
+            'organizer-view-approved-reservations',
+            'organizer-view-rejected-reservations',
+            'organizer-view-paid-reservations',
+            'organizer-approve-reservation',
+            'organizer-reject-reservation'
+        ]);
 
 
-        // Role::where('name','spectator')->get()->first()->givePermissionsTo([
-        //     'spectator-view-reservations',
-        //     'spectator-reserve',
-        //     'spectator-cancel-reservation',
-        //     'spectator-payment',
-        //     'generate-ticket'
-        // ]);
+        Role::where('name','spectator')->get()->first()->givePermissionsTo([
+            'spectator-view-reservations',
+            'spectator-reserve',
+            'spectator-cancel-reservation',
+            'spectator-payment',
+            'generate-ticket'
+        ]);
 
 
     }
