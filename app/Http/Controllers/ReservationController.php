@@ -127,19 +127,6 @@ class ReservationController extends Controller
         return redirect()->back()->with('success', 'Reservation rejected successfully.');
     }
 
-    public function payment($id)
-    {
-        $reservation = Reservation::find($id);
-        if (!$reservation) {
-            return redirect()->back()->with('error', 'Reservation not found');
-        }
-        if ($reservation->user_id != auth()->id()) {
-            return redirect()->back()->with('error', 'You are not authorized to update this reservation');
-        }
-        $reservation->payment_status = 'paid';
-        $reservation->save();
-        return redirect()->back()->with('success', 'Payment status updated successfully.');
-    }
 
     public function spectatorReservations()
     {
@@ -177,8 +164,12 @@ class ReservationController extends Controller
     public function ticket($id)
     {
         $reservation = Reservation::find($id);
+
         if (!$reservation) {
             return redirect()->back()->with('error', 'Reservation not found');
+        }
+        if($reservation->date < now()){
+            return redirect()->back()->with('error', 'You can not generate a ticket for a past event');
         }
         if ($reservation->user_id != auth()->id()) {
             return redirect()->back()->with('error', 'You are not authorized to view this reservation');
