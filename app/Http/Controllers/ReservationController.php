@@ -16,6 +16,7 @@ class ReservationController extends Controller
     {
         $this->event = $event;
     }
+
     public function index()
     {
         return view('reservations');
@@ -24,7 +25,6 @@ class ReservationController extends Controller
     public function reservation($id)
     {
         $event = $this->event->findById($id);
-
 
         if (!$event) {
             return redirect()->back()->with('error', 'Event not found');
@@ -41,10 +41,10 @@ class ReservationController extends Controller
         $reservation = Reservation::where('event_id', $event->id)->where('user_id', auth()->id())->first();
         if ($reservation) {
             return redirect()->back()->with('error', 'You have already reserved this event');
-        }  
+        }
 
         if ($event->reservation_approval_mode == 'automatic') {
-            // Perform the logic to reserve the event here
+
             $reservation = Reservation::create([
                 'event_id' => $event->id,
                 'user_id' => auth()->id(),
@@ -52,12 +52,12 @@ class ReservationController extends Controller
                 'reservation_code' => Str::random(10),
 
             ]);
-            // For example, you can update the event's reservation count or block the event
+
             $event->reserved_seats += 1;
             $event->save();
-            // You can also redirect the user to a different page or show a success message
+
             return redirect()->back()->with('success', 'Event reserved successfully.');
-        } elseif ($event->reservation_approval_mode == 'manual'){
+        } elseif ($event->reservation_approval_mode == 'manual') {
             $reservation = Reservation::create([
                 'event_id' => $event->id,
                 'user_id' => auth()->id(),
@@ -84,7 +84,7 @@ class ReservationController extends Controller
             return redirect()->back()->with('success', 'Reservation canceled successfully.');
         }
 
-        if($reservation->payment_status == 'paid'){
+        if ($reservation->payment_status == 'paid') {
             return redirect()->back()->with('error', 'You can not cancel this reservation, because you have already paid for it.');
         }
 
@@ -168,7 +168,7 @@ class ReservationController extends Controller
         if (!$reservation) {
             return redirect()->back()->with('error', 'Reservation not found');
         }
-        if($reservation->date < now()){
+        if ($reservation->date < now()) {
             return redirect()->back()->with('error', 'You can not generate a ticket for a past event');
         }
         if ($reservation->user_id != auth()->id()) {
@@ -182,5 +182,4 @@ class ReservationController extends Controller
         $pdf = Pdf::loadView('tickets.ticket', compact('reservation'));
         return $pdf->download('ticket.pdf');
     }
-    
 }
