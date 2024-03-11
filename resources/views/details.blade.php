@@ -102,7 +102,6 @@
                             <input type="hidden" name="id" value="{{$event->id}}">
                             <button
                                 class="inline-flex text-white bg-red-600 border-0 py-2 px-6 focus:outline-none hover:bg-red-700 rounded text-lg">Cancel
-                                reservation
                             </button>
                         </form>
                         
@@ -120,14 +119,6 @@
                                 a seat
                             </button>
                         </form>
-                    @endif
-
-                    @if ($event->reservations()->where('user_id', auth()->id())->count() > 0)
-                        @if ($event->reservations()->where('user_id', auth()->id())->first()->status == 'approved')
-                            <a href="{{ route('tickets.generate', $event->reservations()->where('user_id', auth()->id())->first()->id) }}"
-                                class="inline-flex text-white bg-green-600 border-0 py-2 px-6 focus:outline-none hover:bg-green-700 rounded text-lg"
-                                target="_blank">Generate Ticket</a>
-                        @endif
                     @endif
                 </div>
             </div>
