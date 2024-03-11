@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
         // user crud
         route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware('can:view-users');
         route::get('/users/access/{id}', [UserController::class, 'edit'])->name('users.access')->middleware('can:edit-user-access');
-        route::put('/users/access/{id}', [UserController::class, 'restrictAccess'])->name('users.restrict.access')->middleware('can:restrict-user-access ');
+        route::put('/users/access/{id}', [UserController::class, 'restrictAccess'])->name('users.restrict.access');
 
 
         // categories crud
