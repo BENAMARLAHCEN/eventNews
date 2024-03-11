@@ -46,6 +46,7 @@ class StatisticController extends Controller
         // Fetch the statistics data from the database
         return [
             'total_events' => Event::count(),
+            'tolat_pending_events' => Event::where('status', 'pending')->count(),
             'total_reservations' => Reservation::whereIn('event_id', auth()->user()->events->pluck('id'))->count(),
             'total_revenue' => Reservation::whereIn('event_id', auth()->user()->events->pluck('id'))->sum('price'),
         ];
