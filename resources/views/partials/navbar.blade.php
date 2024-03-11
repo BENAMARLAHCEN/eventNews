@@ -80,7 +80,7 @@
 
 <!-- Mobile Navbar -->
 <header
-    class="text-slate-700 relative flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 lg:mx-auto lg:flex-row lg:items-center">
+    class="text-slate-700 relative flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 lg:mx-auto lg:flex-row lg:items-center shadow">
     <a href="/" class="flex items-center whitespace-nowrap text-2xl font-black">
         <span class="mr-2 w-9">
             <img src="{{ asset('images/event (2).png') }}" alt="logo" />
@@ -106,13 +106,13 @@
                     href="/blog">Blog</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                    href="contact">Contact</a></li>
+                    href="/contact">Contact</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
                     href="/about">About Us</a></li>
             <li class="lg:mr-12"><a
                     class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                    href="faq">FAQ</a></li>
+                    href="/faq">FAQ</a></li>
         </ul>
         <hr class="mt-4 w-full lg:hidden" />
         <div class="mx-3 my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0">
