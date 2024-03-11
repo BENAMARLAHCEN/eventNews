@@ -113,6 +113,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::middleware('role:organizer')->group(function () {
+
+        // statistic
+        Route::get('/organizer/dashboard', [StatisticController::class, 'organizerStatistic'])->name('organizer.dashboard');
         // organizer event crud path 'my_events'
 
         route::get('/myEvents', [OrganizerEventController::class, 'index'])->name('organizer.events.index')->middleware('can:organizer-view-events');
@@ -136,7 +139,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::middleware('role:admin')->group(function () {
+    Route::middleware('role:spectator')->group(function () {
         // Reservation Routes
         Route::get('/myReservations', [ReservationController::class, 'spectatorReservations'])->name('reservations.spectator')->middleware('can:spectator-view-reservations');
         Route::post('/reservations/{id}', [ReservationController::class, 'reservation'])->name('reservations.reserve')->middleware('can:spectator-reserve');

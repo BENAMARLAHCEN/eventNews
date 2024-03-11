@@ -13,10 +13,10 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Total clients
+                        Total Reservations
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        6389
+                        {{ $statistics['total_reservations'] }}
                     </p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         Account balance
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        $ 46,760.89
+                        $ {{ $statistics['total_revenue'] }}
                     </p>
                 </div>
             </div>
@@ -51,10 +51,10 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        New sales
+                        Pending events
                     </p>
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        376
+                        {{ $statistics['tolat_pending_events'] }}
                     </p>
                 </div>
             </div>
@@ -70,9 +70,11 @@
                 </div>
                 <div>
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Pending contacts
+                        Total revenue
                     </p>
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">35</p>
+                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                        $ {{ $statistics['total_revenue'] }}
+                    </p>
                 </div>
             </div>
         </div>
