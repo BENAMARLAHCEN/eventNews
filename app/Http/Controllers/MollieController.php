@@ -18,6 +18,21 @@ class MollieController extends Controller
         if (!$reservation) {
             return redirect()->back()->with('error', 'This reservation is not exist.');
         }
+        if ($reservation->user_id != Auth::id()) {
+            return redirect()->back()->with('error', 'You are not authorized to make payment for this reservation.');
+        }
+        if ($reservation->payment_status == 'paid') {
+            return redirect()->back()->with('error', 'This reservation is already paid.');
+        }
+        if ($reservation->status != 'approved') {
+            return redirect()->back()->with('error', 'You can not make payment for this reservation, because it is not approved yet.');
+        }
+        if ($reservation->event->date < Carbon::now()) {
+            return redirect()->back()->with('error', 'You can not make payment for this reservation, because the event is already finished.');
+        }
+        if ($reservation->event->reserved_seats - 1 >= $reservation->event->capacity) {
+            return redirect()->back()->with('error', 'You can not make payment for this reservation, because the event is already full.');
+        }
 
         $totalAmount = $reservation->event->price;
         $totalAmount = number_format($totalAmount, 2, '.', '');
