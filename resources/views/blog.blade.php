@@ -79,7 +79,7 @@
     </div>
 
     <script>
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             var categoryCheckboxes = document.querySelectorAll('.category_checkbox');
             var searchInput = document.getElementById('search');
@@ -112,7 +112,6 @@
             }
 
             category = category.join(',');
-            console.log(category);
 
             var searchValue = document.getElementById('search').value;
 
