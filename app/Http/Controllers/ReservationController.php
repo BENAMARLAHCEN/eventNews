@@ -180,6 +180,8 @@ class ReservationController extends Controller
         }
 
         $pdf = Pdf::loadView('tickets.ticket', compact('reservation'));
+        $pdf->setPaper('a4', 'landscape');
+        
         return $pdf->download('ticket.pdf');
     }
 }
